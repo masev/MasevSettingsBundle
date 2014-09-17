@@ -1,7 +1,6 @@
 {
     "name": "masev/settings-bundle",
     "description": "Masev SettingsBundle introduce a settings system into eZ Publish 5.x, administration is possible thanks to an interface in legacy admin.",
-    "type": "ezpublish-legacy-extension",
     "license": "GPL-2.0",
     "authors": [
         {
