@@ -13,5 +13,9 @@
         "ezsystems/ngsymfonytools-bundle": "*",
         "wizad/settings-bundle": "dev-master"
 
-    }
+    },
+    "autoload": {
+        "psr-0": { "Masev\\SettingsBundle": "" }
+    },
+    "target-dir": "Masev//SettingsBundle"
 }
