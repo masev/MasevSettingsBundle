@@ -1,0 +1,37 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="masev_settings.dependency_injection.container_injection_manager.class">Masev\SettingsBundle\DependencyInjection\ContainerInjectionManager</parameter>
+        <parameter key="masev_settings.model.settings.class">Massev\SettingsBundle\Model\Settings</parameter>
+        <parameter key="masev_settings.dal.redis.class">Masev\SettingsBundle\Dal\RedisParametersStorage</parameter>
+        <parameter key="masev_settings.dal.mysql.class">Masev\SettingsBundle\Dal\MysqlParametersStorage</parameter>
+
+        <parameter key="masev_settings.parameters_prefix">masev_settings.dynamic.</parameter>
+    </parameters>
+
+    <services>
+        <service id="masev_settings.dependency_injection.container_injection_manager" class="%masev_settings.dependency_injection.container_injection_manager.class%">
+            <argument type="service" id="masev_settings.dal.parameters_storage" />
+            <argument>%masev_settings.schema%</argument>
+            <argument>%masev_settings.parameters_prefix%</argument>
+        </service>
+
+        <service id="masev_settings.dal.parameters_storage" />
+
+        <service id="masev_settings.model.settings" class="%masev_settings.model.settings.class%">
+            <argument type="service" id="masev_settings.dal.parameters_storage" />
+            <argument type="service" id="masev_settings.dependency_injection.container_injection_manager" />
+            <argument>%masev_settings.schema%</argument>
+            <call method="setContainer">
+                <argument type="service" id="service_container" />
+            </call>
+        </service>
+
+
+    </services>
+
+</container>
