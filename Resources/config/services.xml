@@ -6,7 +6,7 @@
 
     <parameters>
         <parameter key="masev_settings.dependency_injection.container_injection_manager.class">Masev\SettingsBundle\DependencyInjection\ContainerInjectionManager</parameter>
-        <parameter key="masev_settings.model.settings.class">Massev\SettingsBundle\Model\Settings</parameter>
+        <parameter key="masev_settings.model.settings.class">Masev\SettingsBundle\Model\Settings</parameter>
         <parameter key="masev_settings.dal.redis.class">Masev\SettingsBundle\Dal\RedisParametersStorage</parameter>
         <parameter key="masev_settings.dal.mysql.class">Masev\SettingsBundle\Dal\MysqlParametersStorage</parameter>
 
