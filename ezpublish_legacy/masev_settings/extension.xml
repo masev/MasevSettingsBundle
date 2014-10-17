@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<software>
+    <metadata>
+        <name>Masev Settings Bundle</name>
+        <version>0.1</version>
+        <copyright>masev</copyright>
+        <license>GNU General Public License</license>
+        <info_url>http://github.com/masev/settings-bundle</info_url>
+    </metadata>
+</software>

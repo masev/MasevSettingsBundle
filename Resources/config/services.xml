@@ -31,7 +31,10 @@
             </call>
         </service>
 
-
+        <service id="masev.twig.masev_extension" class="Masev\SettingsBundle\Twig\MasevExtension">
+            <argument type="service" id="ezpublish.config.resolver" />
+            <tag name="twig.extension" />
+        </service>
     </services>
 
 </container>
