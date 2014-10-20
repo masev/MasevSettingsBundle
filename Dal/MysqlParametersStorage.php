@@ -11,11 +11,16 @@ class MysqlParametersStorage implements ParametersStorageInterface
         $this->db = new \PDO("mysql:host=".$config['host'].";dbname=".$config['dbname'].";charset=utf8", $config['user'], $config['password']);
     }
 
-    public function has($key, $scope = 'default')
+    public function has($key, $scope = null)
     {
-        $statement = $this->db->prepare("SELECT count(id) FROM `masev_settings` WHERE `identifier`=:key AND `scope`=:scope");
+        if ($scope) {
+            $statement = $this->db->prepare("SELECT count(id) FROM `masev_settings` WHERE `identifier`=:key AND `scope`=:scope");
+            $statement->bindValue(":scope", $scope);
+        } else {
+            $statement = $this->db->prepare("SELECT count(id) FROM `masev_settings` WHERE `identifier`=:key");
+        }
+
         $statement->bindValue(":key", $key);
-        $statement->bindValue(":scope", $scope);
 
         $statement->execute();
         $result = $statement->fetch();

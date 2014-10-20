@@ -94,7 +94,7 @@ class XmlFileLoader implements ParserInterface
             $parameter['form']['type'] = 'text';
         }
 
-        $schema[sha1($parameter['key'])] = $parameter;
+        $schema[$parameter['key']] = $parameter;
     }
 
 

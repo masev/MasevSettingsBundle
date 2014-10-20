@@ -12,7 +12,7 @@ use Symfony\Component\HttpKernel\Kernel;
 use Masev\SettingsBundle\Dal\ParametersStorageInterface;
 use Masev\SettingsBundle\DependencyInjection\ContainerInjectionManager;
 
-class Settings implements \ArrayAccess, ContainerAwareInterface
+class Settings implements ContainerAwareInterface
 {
     /**
      * @var ParametersStorageInterface
@@ -73,90 +73,26 @@ class Settings implements \ArrayAccess, ContainerAwareInterface
         return $this->schema;
     }
 
-    public function findId($key)
-    {
-        if (!isset($this->keyDict[$key]))
-            return null;
-
-        return $this->keyDict[$key];
-    }
-
-    public function formName($key)
-    {
-        $id = $this->findId($key);
-
-        return sprintf('setting_%s', $id);
-    }
-
-    public function __get($name)
-    {
-        var_dump($this->schema);
-        if (strpos($name, 'setting_') === 0) {
-            $name = str_replace('setting_', '', $name);
-
-            if (!array_key_exists($name, $this->schema)) {
-                trigger_error(sprintf('Property %s does not exist in dynamic settings.', $name));
-            }
-
-            return $this->parametersStorage->get($this->schema[$name]['key']);
-        } elseif (strpos($name, 'default_setting_') === 0) {
-            $name = str_replace('default_setting_', '', $name);
-
-            if (!array_key_exists($name, $this->schema)) {
-                trigger_error(sprintf('Property %s does not exist in dynamic settings.', $name));
-            }
-
-            return $this->schema[$name]['default'];
-        } elseif (strpos($name, 'form_') === 0) {
-            $name = str_replace('form_', '', $name);
-
-            return $this->formName($name);
-        } elseif (strpos($name, 'real_') === 0) {
-            $value = $this->schema[$this->keyDict[$name]]['default'];
-
-            if($this->parametersStorage->has($name))
-                $value = $this->parametersStorage->get($name);
-
-            return $value;
-        }
-        elseif(array_key_exists($name, $this->keyDict)) {
-
-            $parameterName = $this->containerInjectionManager->getParametersName($name);
-
-            if(!$this->container->hasParameter($parameterName)) {
-                throw new \InvalidArgumentException();
-            }
-
-            $value = $this->container->getParameter($parameterName);
-
-            return $value;
-        }
-
-        trigger_error(sprintf('Property %s does not exist in dynamic settings.', $name));
-    }
-
     public function __set($name, $value)
     {
-        $name = str_replace('setting_', '', $name);
-
         if (!array_key_exists($name, $this->schema)) {
             trigger_error(sprintf('Property %s does not exist in dynamic settings.', $name));
         }
 
-        return $this->data[$this->schema[$name]['key']] = $value;
+        return $this->data[$name] = $value;
     }
 
     /**
      * Save current model in the storage
      */
-    public function save()
+    public function save($scope = 'default')
     {
         foreach ($this->data as $key => $value) {
-            if (!empty($value)) {
-                $this->parametersStorage->set($key, $value);
+            if (!is_null($value)) {
+                $this->parametersStorage->set($key, $value, $scope);
             } else {
                 // Remove value to use default
-                $this->parametersStorage->remove($key);
+                $this->parametersStorage->remove($key, $scope);
             }
         }
     }
@@ -164,105 +100,24 @@ class Settings implements \ArrayAccess, ContainerAwareInterface
     /**
      * @return array
      */
-    public function getDataAsArray()
+    public function getDataAsArray($scope = null)
     {
         $data = array();
 
-        foreach($this->schema as $param) {
-            if(!$this->parametersStorage->has($param['key'])) {
-                continue;
+        foreach ($this->schema as $param) {
+            if (!is_null($scope)) {
+                $data[$param['key']] = array(
+                    "data" => $this->parametersStorage->get($param['key'], $scope),
+                    "schema" => $param
+                );
+            } else {
+                $data[$param['key']] = array(
+                    "data" => $this->parametersStorage->getAll($param['key']),
+                    "schema" => $param
+                );
             }
-
-            $data[$param['key']] = array(
-                "data" => $this->parametersStorage->getAll($param['key']),
-                "schema" => $param
-            );
         }
 
         return $data;
-    }
-
-    /**
-     * (PHP 5 &gt;= 5.0.0)<br/>
-     * Whether a offset exists
-     *
-     * @link http://php.net/manual/en/arrayaccess.offsetexists.php
-     *
-     * @param mixed $offset <p>
-     *                      An offset to check for.
-     * </p>
-     *
-     * @return boolean true on success or false on failure.
-     * </p>
-     * <p>
-     *       The return value will be casted to boolean if non-boolean was returned.
-     */
-    public function offsetExists($offset)
-    {
-        if (strpos($offset, 'form_') === 0) {
-            $offset = str_replace('form_', '', $offset);
-
-            return array_key_exists($offset, $this->keyDict);
-        } elseif (strpos($offset, 'setting_') === 0 || strpos($offset, 'default_setting_') === 0) {
-            $offset = str_replace(array('setting_ ', 'default_setting_'), '', $offset);
-
-            return array_key_exists($offset, $this->schema);
-        }
-
-        return array_key_exists($offset, $this->keyDict);
-    }
-
-    /**
-     * (PHP 5 &gt;= 5.0.0)<br/>
-     * Offset to retrieve
-     *
-     * @link http://php.net/manual/en/arrayaccess.offsetget.php
-     *
-     * @param mixed $offset <p>
-     *                      The offset to retrieve.
-     * </p>
-     *
-     * @return mixed Can return all value types.
-     */
-    public function offsetGet($offset)
-    {
-        return $this->$offset;
-    }
-
-    /**
-     * (PHP 5 &gt;= 5.0.0)<br/>
-     * Offset to set
-     *
-     * @link http://php.net/manual/en/arrayaccess.offsetset.php
-     *
-     * @param mixed $offset <p>
-     *                      The offset to assign the value to.
-     * </p>
-     * @param mixed $value  <p>
-     *                      The value to set.
-     * </p>
-     *
-     * @return void
-     */
-    public function offsetSet($offset, $value)
-    {
-        $this->$offset = $value;
-    }
-
-    /**
-     * (PHP 5 &gt;= 5.0.0)<br/>
-     * Offset to unset
-     *
-     * @link http://php.net/manual/en/arrayaccess.offsetunset.php
-     *
-     * @param mixed $offset <p>
-     *                      The offset to unset.
-     * </p>
-     *
-     * @return void
-     */
-    public function offsetUnset($offset)
-    {
-        // TODO: Implement offsetUnset() method.
     }
 }
