@@ -120,4 +120,22 @@ class Settings implements ContainerAwareInterface
 
         return $data;
     }
+
+    public function getSections()
+    {
+        $sections = array();
+        foreach ($this->schema as $key => $setting) {
+            $settingExploded = explode(".", $key);
+
+            if (count($settingExploded) > 3) {
+                $sections[$settingExploded[0]][$settingExploded[1]][$settingExploded[2]] = false;
+            } elseif (count($settingExploded) > 2) {
+                $sections[$settingExploded[0]][$settingExploded[1]] = false;
+            } else {
+                $sections[$settingExploded[0]] = false;
+            }
+        }
+
+        return $sections;
+    }
 }

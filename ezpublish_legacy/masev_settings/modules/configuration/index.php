@@ -7,6 +7,7 @@ $container = ezpKernel::instance()->getServiceContainer();
 
 $site = ($http->hasGetVariable('site') ? $http->getVariable('site') : 'default');
 $settingsModel = $container->get("masev_settings.model.settings");
+$sections = $settingsModel->getSections();
 
 if ($http->hasPostVariable('SaveConfigButton')) {
     foreach ($http->postVariable('config') as $key => $value) {
@@ -22,6 +23,7 @@ if ($http->hasPostVariable('SaveConfigButton')) {
 
 $tpl->setVariable("schema", $container->getParameter("masev_settings.schema"));
 $tpl->setVariable("data", $settingsModel->getDataAsArray($site));
+$tpl->setVariable("sections", $sections);
 
 $Result = array();
 $Result['content'] = $tpl->fetch( "design:configuration/index.tpl" );
