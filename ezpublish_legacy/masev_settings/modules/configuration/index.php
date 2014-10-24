@@ -18,6 +18,11 @@ if ($http->hasPostVariable('SaveConfigButton')) {
         }
     }
     $settingsModel->save($site);
+
+    // Force container regeneration
+    $kernel = $container->get('kernel');
+    $injectionManager = $container->get('masev_settings.dependency_injection.container_injection_manager');
+    $injectionManager->rebuild($kernel);
 }
 
 
