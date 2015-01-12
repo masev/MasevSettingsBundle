@@ -24,6 +24,8 @@ if ($http->hasPostVariable('SaveConfigButton')) {
     $injectionManager = $container->get('masev_settings.dependency_injection.container_injection_manager');
     $injectionManager->rebuild($kernel);
     $container->get( 'ezpublish.http_cache.purger' )->purge( array("*") );
+
+    $tpl->setVariable("success", 1);
 }
 
 

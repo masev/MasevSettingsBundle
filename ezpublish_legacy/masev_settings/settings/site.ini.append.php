@@ -3,4 +3,6 @@
 [TemplateSettings]
 ExtensionAutoloadPath[]=masev_settings
 
+[RegionalSettings]
+TranslationExtensions[]=masev_settings
 */ ?>
