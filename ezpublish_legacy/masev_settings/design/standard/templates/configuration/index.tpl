@@ -98,7 +98,7 @@
                     </a>
                     <ul class="dropdown-menu" role="menu">
                         {foreach $subsection as $subsectionName => $subsection}
-                            <li role="presentation"><a href="#tab_{$subsectionName}" aria-controls="settings" role="tab" data-toggle="tab">{$subsectionName|upfirst}</a></li>
+                            <li role="presentation"><a href="#tab_{$sectionName}_{$subsectionName}" aria-controls="settings" role="tab" data-toggle="tab">{$subsectionName|upfirst}</a></li>
                         {/foreach}
                     </ul>
                 </li>
@@ -112,7 +112,7 @@
                 {def $cpt = 0}
                 {foreach $sections as $sectionName => $subsection}
                     {foreach $subsection as $subsectionName => $subsection}
-                        <div role="tabpanel" class="tab-pane{if $cpt|eq(0)} active{/if}" id="tab_{$subsectionName}">
+                        <div role="tabpanel" class="tab-pane{if $cpt|eq(0)} active{/if}" id="tab_{$sectionName}_{$subsectionName}">
                             <h2>{$subsectionName|upfirst} <small>{$sectionName|upfirst}</small></h2>
                             {foreach $data as $key => $item}
                                 {if and($key|contains($sectionName), $key|contains($subsectionName))}
