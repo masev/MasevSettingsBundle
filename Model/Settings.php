@@ -107,12 +107,12 @@ class Settings implements ContainerAwareInterface
         foreach ($this->schema as $param) {
             if (!is_null($scope)) {
                 $data[$param['key']] = array(
-                    "data" => $this->parametersStorage->get($param['key'], $scope),
+                    "data" => $this->parametersStorage->get($param['key'], $scope) == false ? "" : $this->parametersStorage->get($param['key'], $scope),
                     "schema" => $param
                 );
             } else {
                 $data[$param['key']] = array(
-                    "data" => $this->parametersStorage->getAll($param['key']),
+                    "data" => $this->parametersStorage->getAll($param['key']) == false ? "" : $this->parametersStorage->getAll($param['key']),
                     "schema" => $param
                 );
             }
