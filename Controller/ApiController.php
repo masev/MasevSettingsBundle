@@ -12,12 +12,12 @@ class ApiController extends Controller
 {
     public function schemaAction()
     {
-        var_dump($this->container->getParameter("masev_settings.schema"));
         return new JsonResponse($this->container->getParameter("masev_settings.schema"));
     }
 
-    public function dataAction($site = "default")
+    public function dataAction(Request $request)
     {
+        $site = $request->query->get("site");
         return new JsonResponse($this->container->get("masev_settings.model.settings")->getDataAsArray($site));
     }
 
@@ -33,7 +33,7 @@ class ApiController extends Controller
             $data = json_decode($request->getContent(), true);
 
             $settingsModel->__set($data['item']['schema']['key'], $data['value']);
-            $settingsModel->save('default');
+            $settingsModel->save($data['site']);
         } catch (\Exception $e) {
             return new JsonResponse(false);
         }
