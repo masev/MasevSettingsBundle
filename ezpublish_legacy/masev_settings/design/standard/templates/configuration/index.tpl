@@ -43,6 +43,9 @@
 <div ng-app="masevSettings">
     {literal}
     <div ng-controller="SettingsController as settings">
+        <div ng-hide="settings.xhrCount >= 2" style="position: absolute;background-color: #FFF;width: 100%;margin: 0;height: 100%; z-index: 9999; text-align: center;">
+            <img style="margin-top: 50px;" src="/extension/masev_settings/design/standard/images/loading.gif" width="100px" />
+        </div>
         <div role="tabpanel">
             <!-- Nav tabs -->
             <ul class="nav nav-tabs" role="tablist">

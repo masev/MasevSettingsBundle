@@ -1,6 +1,7 @@
 <?php
 namespace Masev\SettingsBundle\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -25,14 +26,17 @@ class ApiController extends Controller
         return new JsonResponse($this->container->get("masev_settings.model.settings")->getSections());
     }
 
-    public function updateAction()
+    public function updateAction(Request $request)
     {
-        $request = $this->getRequest();
-        $settingsModel = $this->get("masev_settings.model.settings");
-        $data = json_decode($request->getContent(), true);
+        try {
+            $settingsModel = $this->get("masev_settings.model.settings");
+            $data = json_decode($request->getContent(), true);
 
-        $settingsModel->__set($data['item']['schema']['key'], $data['value']);
-        $settingsModel->save('default');
+            $settingsModel->__set($data['item']['schema']['key'], $data['value']);
+            $settingsModel->save('default');
+        } catch (\Exception $e) {
+            return new JsonResponse(false);
+        }
 
         return new JsonResponse(true);
     }

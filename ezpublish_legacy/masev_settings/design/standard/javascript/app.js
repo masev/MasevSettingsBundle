@@ -7,6 +7,7 @@
         that.sections = {};
         that.level2_sections = [];
         that.data = [];
+        that.xhrCount = 0;
 
         $http.get('/masev_settings/api/sections').success(function(data) {
             for (section in data) {
@@ -15,14 +16,16 @@
                 }
             }
             that.sections = data;
+            that.xhrCount++;
         });
 
         $http.get('/masev_settings/api/data').success(function(data) {
             that.data = data;
+            that.xhrCount++;
+            console.log(that.xhrCount);
         });
 
         $scope.updateSettings = function(item, data) {
-            console.log(item);
             return $http.post('/masev_settings/api/update', {item: item, value: data});
         };
     }]);
