@@ -20,12 +20,12 @@
         <translation>Liste des sites</translation>
     </message>
     <message>
-        <source>Save changes</source>
-        <translation>Enregistrer les changements</translation>
+        <source>Changes are saved !</source>
+        <translation>Les changements sont sauvegardés !</translation>
     </message>
     <message>
-        <source>This will clear all the cache !</source>
-        <translation>Cela va effacer tous les caches !</translation>
+        <source>Clear cache</source>
+        <translation>Vider le cache</translation>
     </message>
 </context>
 </TS>

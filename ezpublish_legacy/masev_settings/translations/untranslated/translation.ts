@@ -24,11 +24,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Save changes</source>
+        <source>Changes are saved !</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>This will clear all the cache !</source>
+        <source>Clear cache</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

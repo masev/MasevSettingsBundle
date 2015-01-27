@@ -73,6 +73,11 @@
         <div ng-hide="settings.xhrCount >= 2 || settings.xhrCount == -1" style="position: absolute;width: 100%;margin: 0;height: 50%; z-index: 9999; text-align: center;">
             <img style="margin-top: 50px;" src="/extension/masev_settings/design/standard/images/loading.gif" width="100px" />
         </div>
+
+        <div ng-show="settings.editCount > 0" class="alert alert-warning" role="alert">
+            {/literal}{'Changes are saved !'|i18n('masev_settings')}{literal} <a ng-hide="settings.pendingCacheClear" ng-click="clearCache()">{/literal}{'Clear cache'|i18n('masev_settings')}{literal}</a> <img ng-show="settings.pendingCacheClear" src="/extension/masev_settings/design/standard/images/loading.gif" width="30px" />
+        </div>
+
         <div role="tabpanel" ng-show="settings.xhrCount >= 2">
             <!-- Nav tabs -->
             <ul class="nav nav-tabs" role="tablist">
@@ -100,10 +105,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-
-        <div style="margin-top: 15px;" ng-show="settings.editCount > 0" class="alert alert-warning" role="alert">
-            Des changements ont été effectué ! <a ng-click="clearCache()">Vider le cache</a>
         </div>
     </div>
     {/literal}
