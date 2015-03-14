@@ -3,6 +3,7 @@ MasevSettingsBundle
 
 Masev SettingsBundle introduce a settings system into eZ Publish 5.x, administration is possible thanks to an interface in legacy admin (AngularJS powered).
 All settings are injected in Symfony container as a parameter.
+There are compatible with the eZ Publish Config Resolver allowing you the define settings per siteaccess.
 
 ![Screenshot of the UI](https://raw.githubusercontent.com/masev/MasevSettingsBundle/master/ui.png)
 
