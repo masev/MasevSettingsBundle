@@ -77,7 +77,10 @@ class XmlFileLoader implements ParserInterface
                 case 'form':
                     $parameter['form'] = array(
                         'type'    => $n->hasAttribute('type') ? $n->getAttribute('type') : 'text',
-                        'options' => array()
+                        'options' => array(
+                            'rows' => $n->hasAttribute('rows') ? $n->getAttribute('rows') : '1',
+                            'cols' => $n->hasAttribute('cols') ? $n->getAttribute('cols') : '30',
+                        )
                     );
                     break;
                 default:
