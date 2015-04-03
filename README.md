@@ -69,7 +69,7 @@ masev_settings:
 CREATE TABLE `masev_settings` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `identifier` varchar(255) NOT NULL DEFAULT '',
-  `value` varchar(255) NOT NULL DEFAULT '',
+  `value` TEXT NOT NULL,
   `scope` varchar(255) NOT NULL DEFAULT 'default',
   PRIMARY KEY (`id`),
   UNIQUE KEY `identifier_scope` (`identifier`,`scope`)
@@ -109,7 +109,7 @@ php ezpublish/console cache:clear
 At this step you should be able the define settings in the legacy UI (configuration tab in the eZ Publish Legacy Administration).
 
 ### Step 5 : Query your settings
- 
+
 Now that you have define settings you can query them with the [eZ Publish config resolver](https://doc.ez.no/display/EZP/Configuration).
 
 ```php
