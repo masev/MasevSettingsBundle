@@ -95,6 +95,12 @@ In your bundle, create a file name settings.xml in the folder <bundle_dir>/Resou
         <name>Email sender address</name>
         <default>me@my-site.com</default>
     </parameter>
+    
+    <parameter key="category.sub_category.message">
+        <name>Message</name>
+        <default></default>
+        <form type="textarea" cols="30" rows="10"></form>
+    </parameter>
 
 </settings>
 ```
