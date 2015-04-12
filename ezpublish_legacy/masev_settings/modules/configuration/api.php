@@ -30,7 +30,7 @@ switch ($Params['function']) {
             $settingsModel = $container->get("masev_settings.model.settings");
             $data = json_decode(file_get_contents('php://input'), true);
 
-            $settingsModel->__set($data['item']['schema']['key'], $data['value']);
+            $settingsModel->__set($data['item']['schema']['key'], urldecode($data['value']));
             $settingsModel->save($data['site']);
 
             echo json_encode(true);
