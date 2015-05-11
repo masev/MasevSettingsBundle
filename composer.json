@@ -11,7 +11,7 @@
     "minimum-stability": "dev",
     "require": {
         "ezsystems/ngsymfonytools-bundle": "*",
-        "ezsystems/ezpublish-kernel": "5.3.*"
+        "ezsystems/ezpublish-kernel": "~5.3"
 
     },
     "autoload": {
