@@ -32,6 +32,10 @@
     #submitButton {
         margin-top:15px;
     }
+
+    .editable-browse .form-control {
+        height: 100%;
+    }
 </style>
 <script>
     $(function () {
@@ -107,6 +111,13 @@
                         <div ng-if="item.schema.form.type == 'textarea'">
                             <label ng-show="item.schema.key.indexOf(level2_section.name) > -1 && item.schema.key.indexOf(level2_section.level1) > -1" for="{{ key }}">{{ item.schema.name }} :</label><br />
                             <span e-form="textBtnForm" ng-show="item.schema.key.indexOf(level2_section.name) > -1 && item.schema.key.indexOf(level2_section.level1) > -1" id="{$key}" editable-textarea="item.data" e-rows="{{ item.schema.form.options.rows }}" e-cols="{{ item.schema.form.options.cols }}"  onbeforesave="updateSettings(item, $data)" >{{ item.data == "" ? "Empty value, example : "+item.schema.default : item.data }}</span>
+                            <button ng-show="!textBtnForm.$visible && item.schema.key.indexOf(level2_section.name) > -1 && item.schema.key.indexOf(level2_section.level1) > -1" class="btn btn-default" ng-click="textBtnForm.$show()">
+                                edit
+                            </button>
+                        </div>
+                        <div ng-if="item.schema.form.type == 'browse'">
+                            <label ng-show="item.schema.key.indexOf(level2_section.name) > -1 && item.schema.key.indexOf(level2_section.level1) > -1" for="{{ key }}">{{ item.schema.name }} :</label><br />
+                            <span e-form="textBtnForm" ng-show="item.schema.key.indexOf(level2_section.name) > -1 && item.schema.key.indexOf(level2_section.level1) > -1" id="{$key}" editable-browse="item.data" onbeforesave="updateSettings(item, $data)">{{ item.data == "" ? "Empty value, example : "+item.schema.default : item.data }}</span>
                             <button ng-show="!textBtnForm.$visible && item.schema.key.indexOf(level2_section.name) > -1 && item.schema.key.indexOf(level2_section.level1) > -1" class="btn btn-default" ng-click="textBtnForm.$show()">
                                 edit
                             </button>

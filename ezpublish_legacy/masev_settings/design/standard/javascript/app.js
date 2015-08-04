@@ -1,6 +1,55 @@
 (function() {
     var app = angular.module('masevSettings', ['xeditable']);
 
+    app.controller('BrowseController', ['$scope', '$http', function($scope, $http) {
+        $scope.items = [];
+        $scope.noResult = false;
+        if (typeof $scope.nodeIdPath == "undefined") {
+            $scope.nodeIdPath = [];
+            $scope.nodeIdPath[0] = 2;
+        }
+        if (typeof $scope.depth == "undefined") {
+            $scope.depth = 0;
+        }
+
+        $http.get('/administration/ezjscore/call/ezjscnode::subtree::2::100::0::priority::1::?ContentType=json').
+          then(function(response) {
+            if (response.data.content.total_count != 0) {
+                $scope.items = response.data.content.list;
+            } else {
+                $scope.noResult = true;
+            }
+          }, function(response) {
+            console.log(response);
+        });
+
+        $scope.browse = function($nodeId, $back) {
+            $http.get('/administration/ezjscore/call/ezjscnode::subtree::'+$nodeId+'::100::0::priority::1::?ContentType=json').
+              then(function(response) {
+                if (response.data.content.total_count != 0) {
+                    $scope.items = response.data.content.list;
+                    $scope.noResult = false;
+                } else {
+                    $scope.noResult = true;
+                }
+                if (!$back) {
+                    $scope.depth++;
+                    $scope.nodeIdPath[$scope.depth] = $nodeId;
+                }
+                console.log($scope.nodeIdPath);
+              }, function(response) {
+                console.log(response);
+            });
+        };
+
+        $scope.back = function() {
+            $scope.depth--;
+            console.log($scope.depth);
+            console.log($scope.nodeIdPath[$scope.depth]);
+            $scope.browse($scope.nodeIdPath[$scope.depth], true);
+        };
+    }]);
+
     app.controller('SettingsController', ['$scope', '$http', function($scope, $http, $log){
         var that = this;
 

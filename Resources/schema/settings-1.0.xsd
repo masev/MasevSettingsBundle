@@ -41,6 +41,7 @@
     <xsd:simpleType name="form_type">
         <xsd:restriction base="xsd:string">
             <xsd:enumeration value="textarea" />
+            <xsd:enumeration value="browse" />
         </xsd:restriction>
     </xsd:simpleType>
 </xsd:schema>

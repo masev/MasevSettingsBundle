@@ -258,6 +258,35 @@ angular.module('xeditable').directive('editableTextarea', ['editableDirectiveFac
       }
     });
 }]);
+//browse
+angular.module('xeditable').directive('editableBrowse', ['editableDirectiveFactory',
+  function(editableDirectiveFactory) {
+    return editableDirectiveFactory({
+      directiveName: 'editableBrowse',
+      inputTpl: "<input type='text' />",
+      render: function() {
+        var self = this;
+        this.parent.render.call(this);
+
+        self.inputEl.after('<div ng-controller="BrowseController">' +
+          '<div>Select a content :</div>'+
+          '<div ng-hide="noResult" ng-repeat="item in items"><a ng-click="selectContent(item.node_id);">Select</a><a ng-click="browse(item.node_id, 0);">{{item.name}}</a></div>'+
+          '<div ng-show="noResult">No content.</div>' +
+          '<div ng-show="depth > 0"><a ng-click="back()">Back</a></div>' +
+          '</div>');
+      },
+      autosubmit: function() {
+        var self = this;
+        self.inputEl.bind('keydown', function(e) {
+          if ((e.ctrlKey || e.metaKey) && (e.keyCode === 13)) {
+            self.scope.$apply(function() {
+              self.scope.$form.$submit();
+            });
+          }
+        });
+      }
+    });
+}]);
 
 /**
  * EditableController class. 
@@ -323,7 +352,12 @@ angular.module('xeditable').factory('editableController',
      * @var {string|attribute} buttons
      * @memberOf editable-element
      */    
-    self.buttons = 'right'; 
+    self.buttons = 'right';
+
+    $scope.selectContent = function(nodeId) {
+        self.scope.$data = nodeId;
+    };
+
     /**
      * Action when control losses focus. Values: `cancel|submit|ignore`.
      * Has sense only for single editable element.
@@ -1564,6 +1598,7 @@ angular.module('xeditable').factory('editableThemes', function() {
           case 'editableTime':
           case 'editableMonth':
           case 'editableWeek':
+          case 'editableBrowse':
             this.inputEl.addClass('form-control');
             if(this.theme.inputClass) {
               // don`t apply `input-sm` and `input-lg` to select multiple
