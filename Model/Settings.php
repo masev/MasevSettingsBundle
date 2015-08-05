@@ -34,8 +34,12 @@ class Settings implements ContainerAwareInterface
     private $keyDict;
 
     private $data;
+    /**
+     * @var \eZ\Publish\API\Repository\Repository
+     */
+    private $repository;
 
-    public function __construct(ParametersStorageInterface $parametersStorage, ContainerInjectionManager $containerInjectionManager, $schema)
+    public function __construct(ParametersStorageInterface $parametersStorage, ContainerInjectionManager $containerInjectionManager, $schema, \eZ\Publish\API\Repository\Repository $repository)
     {
         $this->parametersStorage         = $parametersStorage;
         $this->containerInjectionManager = $containerInjectionManager;
@@ -46,6 +50,7 @@ class Settings implements ContainerAwareInterface
         foreach ($this->schema as $id => $setting) {
             $this->keyDict[$setting['key']] = $id;
         }
+        $this->repository = $repository;
     }
 
     /**
@@ -106,8 +111,17 @@ class Settings implements ContainerAwareInterface
 
         foreach ($this->schema as $param) {
             if (!is_null($scope)) {
+                $value = $this->parametersStorage->get($param['key'], $scope) == false ? "" : $this->parametersStorage->get($param['key'], $scope);
+                if ($param['form']['type'] == 'browseLocation' && $value != "") {
+                    try {
+                        $location = $this->repository->getLocationService()->loadLocation($value);
+                        $value = $location->contentInfo->name;
+                    } catch (\Exception $e) {
+                        $value = "";
+                    }
+                }
                 $data[$param['key']] = array(
-                    "data" => $this->parametersStorage->get($param['key'], $scope) == false ? "" : $this->parametersStorage->get($param['key'], $scope),
+                    "data" => $value,
                     "schema" => $param
                 );
             } else {

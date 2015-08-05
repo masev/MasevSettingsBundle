@@ -80,6 +80,7 @@ class XmlFileLoader implements ParserInterface
                         'options' => array(
                             'rows' => $n->hasAttribute('rows') ? $n->getAttribute('rows') : '1',
                             'cols' => $n->hasAttribute('cols') ? $n->getAttribute('cols') : '30',
+                            'startLocationId' => $n->hasAttribute('startLocationId') ? $n->getAttribute('startLocationId') : '2',
                         )
                     );
                     break;

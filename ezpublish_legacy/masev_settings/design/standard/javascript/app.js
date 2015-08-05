@@ -1,30 +1,37 @@
 (function() {
     var app = angular.module('masevSettings', ['xeditable']);
 
-    app.controller('BrowseController', ['$scope', '$http', function($scope, $http) {
+    app.controller('BrowseController', ['$scope', '$http', '$element', function($scope, $http, $element) {
+        var $browseWidgetElmt = angular.element($element);
+        var $startLocationId = $browseWidgetElmt.parent().parent().parent().find("span").attr("data-start-location-id");
         $scope.items = [];
         $scope.noResult = false;
+        $scope.loadingData = false;
         if (typeof $scope.nodeIdPath == "undefined") {
             $scope.nodeIdPath = [];
-            $scope.nodeIdPath[0] = 2;
+            $scope.nodeIdPath[0] = $startLocationId;
         }
         if (typeof $scope.depth == "undefined") {
             $scope.depth = 0;
         }
 
-        $http.get('/administration/ezjscore/call/ezjscnode::subtree::2::100::0::priority::1::?ContentType=json').
+        $scope.loadingData = true;
+        $http.get('/'+currentSiteAccess+'/ezjscore/call/ezjscnode::subtree::'+$startLocationId+'::100::0::priority::1::?ContentType=json').
           then(function(response) {
             if (response.data.content.total_count != 0) {
                 $scope.items = response.data.content.list;
             } else {
                 $scope.noResult = true;
             }
+            $scope.loadingData = false;
           }, function(response) {
             console.log(response);
+            $scope.loadingData = false;
         });
 
         $scope.browse = function($nodeId, $back) {
-            $http.get('/administration/ezjscore/call/ezjscnode::subtree::'+$nodeId+'::100::0::priority::1::?ContentType=json').
+            $scope.loadingData = true;
+            $http.get('/'+currentSiteAccess+'/ezjscore/call/ezjscnode::subtree::'+$nodeId+'::100::0::priority::1::?ContentType=json').
               then(function(response) {
                 if (response.data.content.total_count != 0) {
                     $scope.items = response.data.content.list;
@@ -36,16 +43,15 @@
                     $scope.depth++;
                     $scope.nodeIdPath[$scope.depth] = $nodeId;
                 }
-                console.log($scope.nodeIdPath);
+                $scope.loadingData = false;
               }, function(response) {
                 console.log(response);
+                $scope.loadingData = false;
             });
         };
 
         $scope.back = function() {
             $scope.depth--;
-            console.log($scope.depth);
-            console.log($scope.nodeIdPath[$scope.depth]);
             $scope.browse($scope.nodeIdPath[$scope.depth], true);
         };
     }]);
@@ -96,7 +102,6 @@
                 that.pendingCacheClear = 0;
             });
         };
-
     }]);
 
     app.run(function(editableOptions) {

@@ -26,6 +26,7 @@
             <argument type="service" id="masev_settings.dal.parameters_storage" />
             <argument type="service" id="masev_settings.dependency_injection.container_injection_manager" />
             <argument>%masev_settings.schema%</argument>
+            <argument type="service" id="ezpublish.api.repository" />
             <call method="setContainer">
                 <argument type="service" id="service_container" />
             </call>

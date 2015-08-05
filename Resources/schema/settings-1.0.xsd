@@ -36,12 +36,13 @@
         <xsd:attribute name="type" type="form_type"  />
         <xsd:attribute name="cols" type="xsd:string"  />
         <xsd:attribute name="rows" type="xsd:string"  />
+        <xsd:attribute name="startLocationId" type="xsd:string"  />
     </xsd:complexType>
 
     <xsd:simpleType name="form_type">
         <xsd:restriction base="xsd:string">
             <xsd:enumeration value="textarea" />
-            <xsd:enumeration value="browse" />
+            <xsd:enumeration value="browseLocation" />
         </xsd:restriction>
     </xsd:simpleType>
 </xsd:schema>
