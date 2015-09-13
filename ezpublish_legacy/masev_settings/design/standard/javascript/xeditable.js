@@ -273,7 +273,7 @@ angular.module('xeditable').directive('editableBrowse', ['editableDirectiveFacto
           '<div class="browse-content-list" ng-hide="loadingData">' +
           '<div>Select a content :</div>'+
           '<div ng-hide="noResult" ng-repeat="item in items">'+
-          '<a ng-click="selectContent(item.node_id, item.name);"><i ng-hide="selected == item.node_id" class="fa fa-check-square-o"></i><i ng-show="selected == item.node_id" class="fa fa-check"></i></a> <a ng-click="browse(item.node_id, 0);">{{item.name}}</a>'+
+          '<a ng-click="selectContent(item.node_id, item.name);"><i ng-hide="selected == item.node_id" class="fa fa-check-square-o"></i><i ng-show="selected == item.node_id" class="fa fa-check"></i></a> <a ng-click="browse(item.node_id, 0);">{{ unEscapeHtml(item.name) }}</a>'+
           '</div>'+
           '<div ng-show="noResult">No content.</div>' +
           '<div class="bottom-bar" ng-show="depth > 0"><a ng-click="back()"><i class="fa fa-arrow-up"></i> Back</a></div>' +
