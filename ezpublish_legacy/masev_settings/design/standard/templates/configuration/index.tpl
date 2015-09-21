@@ -69,6 +69,15 @@
         padding-left: 12px;
         padding-top: 3px;
     }
+
+    div.categorie {
+        font-size: 16px;
+        font-weight: bold;
+        margin-bottom: 6px;
+        display: block;
+        margin-left: 15px;
+        margin-top: 10px;
+    }
 </style>
 <script>
     $(function () {
@@ -115,21 +124,24 @@
             {/literal}{'Changes are saved !'|i18n('masev_settings')}{literal} <a ng-hide="settings.pendingCacheClear" ng-click="clearCache()">{/literal}{'Clear cache'|i18n('masev_settings')}{literal}</a> <img ng-show="settings.pendingCacheClear" src="/extension/masev_settings/design/standard/images/loading.gif" width="30px" />
         </div>
 
-        <div role="tabpanel" ng-show="settings.xhrCount >= 2">
+        <div class="row" ng-show="settings.xhrCount >= 2">
             <!-- Nav tabs -->
-            <ul class="nav nav-tabs" role="tablist">
-                <li ng-repeat="(level1, level2_sections) in settings.sections" role="presentation" class="dropdown" ng-class="{active: $index === 0}">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
-                        {{ level1 }} <span class="caret"></span>
-                    </a>
-                    <ul class="dropdown-menu" role="menu">
-                        <li ng-repeat="(level2, value) in level2_sections" role="presentation"><a href="#tab_{{level1}}_{{level2}}" aria-controls="settings" role="tab" data-toggle="tab">{{ level2 }}</a></li>
-                    </ul>
-                </li>
-            </ul>
+            <div class="col-md-2">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Catégories</h3>
+                    </div>
+                    <div ng-repeat="(level1, level2_sections) in settings.sections"  ng-class="{active: $index === 0}">
+                            <div class="categorie">{{ level1 }}</div>
+                            <div class="list-group" style="margin-left: 0">
+                                <a ng-repeat="(level2, value) in level2_sections" class="list-group-item" href="#tab_{{level1}}_{{level2}}" aria-controls="settings">{{ level2 }}</a>
+                            </div>
+                    </div>
+                </div>
+            </div>
 
             <!-- Tab panes -->
-            <div class="tab-content">
+            <div class="col-md-10">
                 <div ng-repeat="(key, level2_section) in settings.level2_sections" role="tabpanel" ng-class="{active: $index === 0}" class="tab-pane" id="tab_{{level2_section.level1}}_{{level2_section.name}}">
                     <h2>{{ level2_section.name }} <small>{{ level2_section.level1 }}</small></h2>
 
