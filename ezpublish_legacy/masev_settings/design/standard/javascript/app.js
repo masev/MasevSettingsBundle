@@ -151,10 +151,16 @@
         that.site = "";
         that.editCount = 0;
         that.pendingCacheClear = 0;
+        that.activeTab = "";
 
         $scope.updateSettings = function(item, data) {
             that.editCount++;
             return $http.post('api/update', {"item": item, "value": data, "site": that.site});
+        };
+
+        $scope.displayTab = function(level1, level2) {
+            that.activeTab = "tab_"+level1+"_"+level2;
+            return false;
         };
 
         $scope.generateTable = function(site) {
