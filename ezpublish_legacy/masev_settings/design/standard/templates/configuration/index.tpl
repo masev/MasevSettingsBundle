@@ -126,24 +126,24 @@
 
         <div class="row" ng-show="settings.xhrCount >= 2">
             <!-- Nav tabs -->
-            <div class="col-md-2">
+            <div class="col-md-3">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
                         <h3 class="panel-title">Catégories</h3>
                     </div>
                     <div ng-repeat="(level1, level2_sections) in settings.sections"  ng-class="{active: $index === 0}">
-                            <div class="categorie">{{ level1 }}</div>
+                            <div class="categorie">{{ level1|titlelize }}</div>
                             <div class="list-group" style="margin-left: 0">
-                                <a ng-repeat="(level2, value) in level2_sections" class="list-group-item" ng-class='{active: ($parent.$index === 0 && $index === 0 && settings.activeTab == "") || settings.activeTab == "tab_"+level1+"_"+level2}' ng-click="displayTab(level1,level2)" aria-controls="settings">{{ level2 }} <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+                                <a ng-repeat="(level2, value) in level2_sections" class="list-group-item" ng-class='{active: ($parent.$index === 0 && $index === 0 && settings.activeTab == "") || settings.activeTab == "tab_"+level1+"_"+level2}' ng-click="displayTab(level1,level2)" aria-controls="settings">{{ level2|titlelize }} <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
                             </div>
                     </div>
                 </div>
             </div>
 
             <!-- Tab panes -->
-            <div class="col-md-10">
+            <div class="col-md-9">
                 <div ng-repeat="(key, level2_section) in settings.level2_sections" ng-show=" ($index === 0 && settings.activeTab == '') || settings.activeTab == 'tab_'+level2_section.level1+'_'+level2_section.name" ng-class="{active: $index === 0}" class="tab-pane" id="tab_{{level2_section.level1}}_{{level2_section.name}}">
-                    <h2>{{ level2_section.name }} <small>{{ level2_section.level1 }}</small></h2>
+                    <h2>{{ level2_section.name|titlelize }} <small>{{ level2_section.level1|titlelize }}</small></h2>
 
                     <div ng-repeat="(key, item) in settings.data" class="form-group">
                         <div ng-if="item.schema.form.type == 'text'" ng-show="item.schema.key.indexOf('.'+level2_section.name+'.') > -1 && item.schema.key.indexOf(level2_section.level1+'.') == 0">
