@@ -189,6 +189,12 @@
         };
     }]);
 
+    app.filter('titlelize', function() {
+        return function(input) {
+            return (!!input) ? (input.charAt(0).toUpperCase() + input.substr(1).toLowerCase()).replace(/_/g, ' ') : '';
+        }
+    });
+
     app.run(function(editableOptions) {
         editableOptions.theme = 'bs3'; // bootstrap3 theme. Can be also 'bs2', 'default'
     });

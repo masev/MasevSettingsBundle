@@ -12,69 +12,69 @@
 </script>
 
 {literal}
-<style type="text/css">
-    #leftmenu {
-        display: none !important;
-    }
+    <style type="text/css">
+        #leftmenu {
+            display: none !important;
+        }
 
-    #maincontent {
-        margin-left: 25px !important;
-    }
+        #maincontent {
+            margin-left: 25px !important;
+        }
 
-    #left-panels-separator {
-        left: 0px !important;
-    }
+        #left-panels-separator {
+            left: 0px !important;
+        }
 
-    .dropdown {
-        display: inline;
-    }
+        .dropdown {
+            display: inline;
+        }
 
-    div.tab-content {
-        height: 100%;
-    }
+        div.tab-content {
+            height: 100%;
+        }
 
-    #submitButton {
-        margin-top:15px;
-    }
+        #submitButton {
+            margin-top:15px;
+        }
 
-    .editable-browse .form-control {
-        height: 100%;
-    }
+        .editable-browse .form-control {
+            height: 100%;
+        }
 
-    a[ng-click]{
-        cursor: pointer;
-    }
+        a[ng-click]{
+            cursor: pointer;
+        }
 
-    div.browser-widget {
-        width: 300px !important;
-        height: 250px !important;
-        overflow: auto;
-        position: relative;
-        padding-bottom: 25px;
-    }
+        div.browser-widget {
+            width: 300px !important;
+            height: 250px !important;
+            overflow: auto;
+            position: relative;
+            padding-bottom: 25px;
+        }
 
-    img.browse-loader {
-        margin: 0 auto;
-        display: block;
-        padding-top: 107px;
-    }
+        img.browse-loader {
+            margin: 0 auto;
+            display: block;
+            padding-top: 107px;
+        }
 
-    div.bottom-bar {
-        position: absolute;
-        height: 25px;
-        bottom: 0px;
-        left: 0px;
-        width: 100%;
-        background-color: lightgrey;
-        padding-left: 12px;
-        padding-top: 3px;
-    }
-</style>
-<script>
-    $(function () {
-        $('[data-toggle="tooltip"]').tooltip()
-    })
-</script>
+        div.bottom-bar {
+            position: absolute;
+            height: 25px;
+            bottom: 0px;
+            left: 0px;
+            width: 100%;
+            background-color: lightgrey;
+            padding-left: 12px;
+            padding-top: 3px;
+        }
+    </style>
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+    </script>
 {/literal}
 
 <div ng-app="masevSettings">
@@ -91,7 +91,7 @@
                         <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
                             <li role="presentation" data-toggle="tooltip" data-placement="top" title="{'Default apply on all site except if a site has already a value defined'|i18n('masev_settings')}"><a role="menuitem" tabindex="-1" ng-click="generateTable('default');">Default</a></li>
                             {foreach ezini('SiteSettings', 'SiteList') as $site}
-                            <li role="presentation"><a role="menuitem" tabindex="-1" ng-click="generateTable('{$site}');" >{$site}</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" ng-click="generateTable('{$site}');" >{$site}</a></li>
                             {/foreach}
                         </ul>
                     </div>
@@ -120,10 +120,10 @@
             <ul class="nav nav-tabs" role="tablist">
                 <li ng-repeat="(level1, level2_sections) in settings.sections" role="presentation" class="dropdown" ng-class="{active: $index === 0}">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
-                        {{ level1 }} <span class="caret"></span>
+                        {{ level1 | titlelize }} <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu" role="menu">
-                        <li ng-repeat="(level2, value) in level2_sections" role="presentation"><a href="#tab_{{level1}}_{{level2}}" aria-controls="settings" role="tab" data-toggle="tab">{{ level2 }}</a></li>
+                        <li ng-repeat="(level2, value) in level2_sections" role="presentation"><a href="#tab_{{level1}}_{{level2}}" aria-controls="settings" role="tab" data-toggle="tab">{{ level2 | titlelize }}</a></li>
                     </ul>
                 </li>
             </ul>
@@ -131,7 +131,7 @@
             <!-- Tab panes -->
             <div class="tab-content">
                 <div ng-repeat="(key, level2_section) in settings.level2_sections" role="tabpanel" ng-class="{active: $index === 0}" class="tab-pane" id="tab_{{level2_section.level1}}_{{level2_section.name}}">
-                    <h2>{{ level2_section.name }} <small>{{ level2_section.level1 }}</small></h2>
+                    <h2>{{ level2_section.name | titlelize }} <small>{{ level2_section.level1 | titlelize }}</small></h2>
 
                     <div ng-repeat="(key, item) in settings.data" class="form-group">
                         <div ng-if="item.schema.form.type == 'text'">
