@@ -60,7 +60,6 @@
     }
 
     div.bottom-bar {
-        position: absolute;
         height: 25px;
         bottom: 0px;
         left: 0px;
