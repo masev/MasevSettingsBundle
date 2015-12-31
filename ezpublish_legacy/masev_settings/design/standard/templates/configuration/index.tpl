@@ -69,6 +69,18 @@
         padding-top: 3px;
     }
 
+    div.top-bar {
+        position: absolute;
+        height: 25px;
+        top: 0px;
+        left: 0px;
+        margin: 0px;
+        width: 100%;
+        background-color: lightgrey;
+        padding-left: 12px;
+        padding-top: 3px;
+    }
+
     div.categorie {
         font-size: 16px;
         font-weight: bold;
