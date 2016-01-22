@@ -48,7 +48,7 @@ switch ($Params['function']) {
         $injectionManager = $container->get('masev_settings.dependency_injection.container_injection_manager');
         $injectionManager->rebuild($kernel);
         
-        $container->get( 'ezpublish.http_cache.purger' )->purge( array("*") );
+        $container->get( 'ezpublish.http_cache.purger' )->purge( array(".*") );
         if ($container->has('fos_http_cache.cache_manager')) {
             $container->get('fos_http_cache.cache_manager')->flush();
         }
