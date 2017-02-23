@@ -158,6 +158,12 @@
             return $http.post('api/update', {"item": item, "value": data, "site": that.site});
         };
 
+        $scope.deleteSettings = function(item, data) {
+            that.editCount++;
+            item.data = "";
+            return $http.post('api/update', {"item": item, "value": null, "site": that.site});
+        };
+
         $scope.displayTab = function(level1, level2) {
             that.activeTab = "tab_"+level1+"_"+level2;
             return false;

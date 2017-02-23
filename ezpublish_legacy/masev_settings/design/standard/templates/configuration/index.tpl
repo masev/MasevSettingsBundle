@@ -177,6 +177,9 @@
                             <button ng-show="!textBtnForm.$visible" class="btn btn-default" ng-click="textBtnForm.$show()">
                                 edit
                             </button>
+                            <button ng-show="!textBtnForm.$visible" ng-click="deleteSettings(item, $data)" class="btn btn-default">
+                                <span class="glyphicon glyphicon-trash"></span>
+                                </button>
                         </div>
                     </div>
                 </div>
