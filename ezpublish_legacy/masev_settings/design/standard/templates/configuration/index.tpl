@@ -89,6 +89,11 @@
         margin-left: 15px;
         margin-top: 10px;
     }
+
+    label {
+        white-space: initial;
+    }
+
 </style>
 <script>
     $(function () {
