@@ -89,11 +89,6 @@
         margin-left: 15px;
         margin-top: 10px;
     }
-
-    label {
-        white-space: initial;
-    }
-
 </style>
 <script>
     $(function () {
@@ -148,10 +143,10 @@
                         <h3 class="panel-title">Catégories</h3>
                     </div>
                     <div ng-repeat="(level1, level2_sections) in settings.sections"  ng-class="{active: $index === 0}">
-                            <div class="categorie">{{ level1|titlelize }}</div>
-                            <div class="list-group" style="margin-left: 0">
-                                <a ng-repeat="(level2, value) in level2_sections" class="list-group-item" ng-class='{active: ($parent.$index === 0 && $index === 0 && settings.activeTab == "") || settings.activeTab == "tab_"+level1+"_"+level2}' ng-click="displayTab(level1,level2)" aria-controls="settings">{{ level2|titlelize }} <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
-                            </div>
+                        <div class="categorie">{{ level1|titlelize }}</div>
+                        <div class="list-group" style="margin-left: 0">
+                            <a ng-repeat="(level2, value) in level2_sections" class="list-group-item" ng-class='{active: ($parent.$index === 0 && $index === 0 && settings.activeTab == "") || settings.activeTab == "tab_"+level1+"_"+level2}' ng-click="displayTab(level1,level2)" aria-controls="settings">{{ level2|titlelize }} <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -163,28 +158,25 @@
 
                     <div ng-repeat="(key, item) in settings.data" class="form-group">
                         <div ng-if="item.schema.form.type == 'text'" ng-show="item.schema.key.indexOf('.'+level2_section.name+'.') > -1 && item.schema.key.indexOf(level2_section.level1+'.') == 0">
-                            <label for="{{ key }}">{{ item.schema.name }} :</label>
+                            <label for="{{ key }}" style="white-space: initial">{{ item.schema.name }} :</label>
                             <span e-form="textBtnForm" id="{$key}" editable-text="item.data" onbeforesave="updateSettings(item, $data)" >{{ item.data == "" ? "Empty value, example : "+item.schema.default : item.data }}</span>
                             <button ng-show="!textBtnForm.$visible" class="btn btn-default" ng-click="textBtnForm.$show()">
                                 edit
                             </button>
                         </div>
                         <div ng-if="item.schema.form.type == 'textarea'" ng-show="item.schema.key.indexOf('.'+level2_section.name+'.') > -1 && item.schema.key.indexOf(level2_section.level1+'.') == 0">
-                            <label for="{{ key }}">{{ item.schema.name }} :</label><br />
+                            <label for="{{ key }}" style="white-space: initial">{{ item.schema.name }} :</label><br />
                             <span e-form="textBtnForm" id="{$key}" editable-textarea="item.data" e-rows="{{ item.schema.form.options.rows }}" e-cols="{{ item.schema.form.options.cols }}"  onbeforesave="updateSettings(item, $data)" >{{ item.data == "" ? "Empty value, example : "+item.schema.default : item.data }}</span>
                             <button ng-show="!textBtnForm.$visible" class="btn btn-default" ng-click="textBtnForm.$show()">
                                 edit
                             </button>
                         </div>
                         <div ng-if="item.schema.form.type == 'browseLocation'" ng-show="item.schema.key.indexOf('.'+level2_section.name+'.') > -1 && item.schema.key.indexOf(level2_section.level1+'.') == 0">
-                            <label for="{{ key }}">{{ item.schema.name }} :</label><br />
+                            <label for="{{ key }}" style="white-space: initial">{{ item.schema.name }} :</label><br />
                             <span e-form="textBtnForm" data-start-location-id="{{ item.schema.form.options.startLocationId }}" id="{$key}" editable-browse="item.data" onbeforesave="updateSettings(item, $data)" onaftersave="updateLabel(item, $data)">{{ item.data == "" ? "Empty value, example : "+item.schema.default : item.data }}</span>
                             <button ng-show="!textBtnForm.$visible" class="btn btn-default" ng-click="textBtnForm.$show()">
                                 edit
                             </button>
-                            <button ng-show="!textBtnForm.$visible" ng-click="deleteSettings(item, $data)" class="btn btn-default">
-                                <span class="glyphicon glyphicon-trash"></span>
-                                </button>
                         </div>
                     </div>
                 </div>
