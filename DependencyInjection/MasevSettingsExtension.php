@@ -51,6 +51,13 @@ class MasevSettingsExtension extends Extension implements PrependExtensionInterf
      */
     public function load(array $configs, ContainerBuilder $container)
     {
+        $configuration = $this->getConfiguration($configs, $container);
+        $config = $this->processConfiguration($configuration, $configs);
+
+        $container->setParameter('masev_settings.varnish_purge.enabled', $config['varnish_purge']['enabled']);
+        if (!empty($config['varnish_purge']['purger_interface_id'])) {
+            $container->setParameter('masev_settings.varnish_purge.purger_interface_id', $config['varnish_purge']['purger_interface_id']);
+        }
     }
 
     /**

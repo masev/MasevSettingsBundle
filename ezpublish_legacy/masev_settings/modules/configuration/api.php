@@ -47,11 +47,20 @@ switch ($Params['function']) {
         $kernel = $container->get('kernel');
         $injectionManager = $container->get('masev_settings.dependency_injection.container_injection_manager');
         $injectionManager->rebuild($kernel);
-        
-        $container->get( 'ezpublish.http_cache.purger' )->purge( array(".*") );
-        if ($container->has('fos_http_cache.cache_manager')) {
-            $container->get('fos_http_cache.cache_manager')->flush();
+
+        try {
+            if ($container->getParameter('masev_settings.varnish_purge.enabled') == true && $container->hasParameter('masev_settings.varnish_purge.purger_interface_id')) {
+                $purger = $container->get($container->getParameter('masev_settings.varnish_purge.purger_interface_id'));
+                $purger->purgeAll();
+                $purger->flush();
+            }
         }
+        catch (\Exception $e) {
+            return json_encode(false);
+        }
+       /* if ($container->has('fos_http_cache.cache_manager')) {
+            $container->get('fos_http_cache.cache_manager')->flush();
+        }*/
 
         echo json_encode(true);
 
