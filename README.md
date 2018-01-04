@@ -59,6 +59,9 @@ masev_settings:
         user: root
         password: root
         dbname: mysettings
+    varnish_purge:
+        enabled: true (to enable varnish purge)
+        purger_interface_id: mybundle.masev_settings.purger (id of service, it had to implement Masev\SettingsBundle\Purger\PurgerInterface    
     bundles: [ ... ]
 ```
  * bundles : list of bundles that will contains configurable settings
