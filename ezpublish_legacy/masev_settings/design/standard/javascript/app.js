@@ -1,6 +1,5 @@
 (function() {
     var app = angular.module('masevSettings', ['xeditable']);
-
     app.controller('BrowseController', ['$scope', '$http', '$element', function($scope, $http, $element) {
         var $browseWidgetElmt = angular.element($element);
         var $startLocationId = $browseWidgetElmt.parent().parent().parent().find("span").attr("data-start-location-id");
@@ -16,7 +15,7 @@
         }
 
         $scope.loadingData = true;
-        $http.get('/'+currentSiteAccess+'/ezjscore/call/ezjscnode::subtree::'+$startLocationId+'::100::0::priority::1::?ContentType=json').
+        $http.get('/'+currentSiteAccess+'/ezjscore/call/ezjscnode::subtree::'+$startLocationId+'::'+browseLimitConfig+'::0::priority::1::?ContentType=json').
           then(function(response) {
             if (response.data.content.total_count != 0) {
                 $scope.items = response.data.content.list;
@@ -116,7 +115,7 @@
 
         $scope.browse = function($nodeId, $back) {
             $scope.loadingData = true;
-            $http.get('/'+currentSiteAccess+'/ezjscore/call/ezjscnode::subtree::'+$nodeId+'::100::0::priority::1::?ContentType=json').
+            $http.get('/'+currentSiteAccess+'/ezjscore/call/ezjscnode::subtree::'+$nodeId+'::'+browseLimitConfig+'::0::priority::1::?ContentType=json').
               then(function(response) {
                 if (response.data.content.total_count != 0) {
                     $scope.items = response.data.content.list;
