@@ -9,6 +9,7 @@
 <script src="/extension/masev_settings/design/standard/javascript/xeditable.js"></script>
 <script>
     var currentSiteAccess = "{$siteaccess}";
+    var browseLimitConfig = "{$browseLimit}";
 </script>
 
 {literal}

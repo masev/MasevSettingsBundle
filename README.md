@@ -63,6 +63,9 @@ masev_settings:
         enabled: true (to enable varnish purge)
         purger_interface_id: mybundle.masev_settings.purger (id of service, it had to implement Masev\SettingsBundle\Purger\PurgerInterface    
     bundles: [ ... ]
+    form:
+        browse_limit: 500 (default 100) #change browse limit search
+        
 ```
  * bundles : list of bundles that will contains configurable settings
 
