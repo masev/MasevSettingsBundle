@@ -12,7 +12,7 @@ class MasevExtension extends \Twig_Extension
 
     public function getFunctions() {
         return array(
-            'getMasevSettings' => new \Twig_Function_Method($this, 'getMasevSettings')
+            new \Twig_SimpleFunction('getMasevSettings', [$this, 'getMasevSettings'])
         );
     }
 
